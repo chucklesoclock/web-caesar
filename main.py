@@ -32,22 +32,24 @@ form = """<!DOCTYPE html>
         </style>
     </head>
     <body>
-        <form action="/encrypt" method="post">
-            <label>Rotate by: <input name="rot" type="number" value=0 id="rot_input" required></label>
-            <textarea name="plaintext" placeholder="Enter message to encrypt here..." required autofocus></textarea>
+        <form method="post">
+            <label>Rotate by: <input name="rot" type="number" value={rot} id="rot_input" required></label>
+            <textarea name="plaintext" placeholder="Enter message to encrypt here..." required autofocus>{ciphertext}</textarea>
             <input type="submit" value="Encrypt plaintext">
         </form>
     </body>
-</html>""".format(style)
+</html>"""
 
 
 @app.route('/')
 def index():
-    return form
+    return form.format(ciphertext='', rot=0)
+
 
 @app.route('/', methods=['POST'])
 def encrypt():
     text = request.form['plaintext']
-    rot = request.form['rot']
+    rot = int(request.form['rot'])
+    return form.format(ciphertext=caesar_encrypt(text, rot), rot=rot)
 
 app.run(debug=True)

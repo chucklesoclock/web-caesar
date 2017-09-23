@@ -32,24 +32,56 @@ form = """<!DOCTYPE html>
         </style>
     </head>
     <body>
-        <form method="post">
-            <label>Rotate by: <input name="rot" type="number" value={rot} id="rot_input" required></label>
-            <textarea name="plaintext" placeholder="Enter message to encrypt here..." required autofocus>{ciphertext}</textarea>
+        <form id="app" method="post">
+            <label>Rotate by: <input name="rot" type="number" value={rot} id="rot_input" oninput="disableDecrypt()" required></label>
+            <textarea id="text_input" name="plaintext" placeholder="Enter message to encrypt here..." oninput="disableDecrypt()" required autofocus>{ciphertext}</textarea>
             <input type="submit" value="Encrypt plaintext">
+            {decrypt}
         </form>
+        
+    <script>
+    var r = document.getElementById("rot_input").value;
+    var t = document.getElementById("text_input").value;
+    
+    function disableDecrypt() {{
+        try {{
+            var new_r = document.getElementById("rot_input").value;
+            var new_t = document.getElementById("text_input").value;
+            if (r != new_r || t != new_t) {{
+                document.getElementById("decrypt").disabled = true;
+            }}
+            else {{
+                document.getElementById("decrypt").disabled = false;
+            }}
+        }}
+        catch (TypeError) {{
+        }}
+    }}
+    </script>
     </body>
 </html>"""
 
 
 @app.route('/')
 def index():
-    return form.format(ciphertext='', rot=0)
+    return form.format(ciphertext='', rot=0, decrypt='')
 
 
 @app.route('/', methods=['POST'])
 def encrypt():
+    try:
+        pressed = bool(request.form['decrypt'])
+    except KeyError:
+        pressed = False
     text = request.form['plaintext']
     rot = int(request.form['rot'])
-    return form.format(ciphertext=caesar_encrypt(text, rot), rot=rot)
+    if not pressed:
+        cipher = caesar_encrypt(text, rot)
+        button = '<button id="decrypt" name="decrypt" value=1>Undo encryption</button>\n'
+    else:
+        cipher = caesar_encrypt(text, abs(26-rot))
+        button = ''
+    return form.format(ciphertext=cipher, rot=rot, decrypt=button)
+
 
 app.run(debug=True)

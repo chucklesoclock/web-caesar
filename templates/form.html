@@ -20,14 +20,6 @@
             width: 3em;
             border-radius: 0px;
         }
-        #rot:invalid {
-            border-right: 2px solid;
-            border-color: red;
-        }
-        #key:invalid {
-            border-right: 2px solid;
-            border-color: red;
-        }
     </style>
 </head>
 <body>
@@ -41,12 +33,11 @@
         <label class="rot">Rotate by: <input class="rot" name="rot" type="number" value="{{rot}}" id="rot"
                                  oninput="disableDecrypt()"></label>
         <label class="key">Key: <input id="key" class="key" name="key" type="text" value="{{key}}"
-                           placeholder="Enter alphabetical key" oninput="disableDecrypt()" pattern="[A-Za-z]{2,}"
-                           title="At least two letters, no spaces or special characters."></label>
+                           placeholder="letters only please" oninput="disableDecrypt()" pattern="[A-Za-z]{2,}"
+                           title="At least two letters, no spaces or special characters. A one letter Vigenere key is just a caesar shift."></label>
 
         <textarea id="text" name="plaintext" placeholder="Enter message to encrypt here..."
-                  oninput="disableDecrypt()" required
-                  title="You should put some plaintext in here if you want it encrypted">{{ciphertext}}</textarea>
+                  oninput="disableDecrypt()" required>{{ciphertext}}</textarea>
 
     <input type="submit" value="Encrypt plaintext">
     {% if not decrypt_hide %}

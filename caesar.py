@@ -7,11 +7,10 @@ def encrypt(text, rot):
 
 def main(shift, verbose, text):
     msg = input('Type a message:\n') if text is None else text
-    good_int = False
-    while not good_int:
+    while True:
         try:
             rot = int(input('Rotate by:\n')) if shift is None else shift
-            good_int = True
+            break
         except ValueError:
             print('error: the shift must be an integer, please try again')
             continue

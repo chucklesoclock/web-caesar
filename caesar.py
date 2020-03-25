@@ -22,7 +22,7 @@ def main(shift, verbose, text):
 if __name__ == '__main__':
     import argparse
 
-    parser = argparse.ArgumentParser(description='encrypt plaintext with Caesar cypher')
+    parser = argparse.ArgumentParser(description='encrypt plaintext with Caesar cipher')
     parser.add_argument('shift', type=int, nargs='?',
                         help='distance to shift character down alphabet')
     parser.add_argument('-v', '--verbose', action='store_true', default=False,

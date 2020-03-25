@@ -19,4 +19,4 @@ Features include input validation and some toggling.
 
 ## Future Enhancements
 
-- add decryption capability with inputed shift for caesar or key for vingenere ciphers. 
+- add decryption capability with inputed shift for caesar cipher or key for vingenere cipher. 
